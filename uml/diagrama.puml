@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+skinparam classBackgroundColor White
+skinparam backgroundColor White
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+interface ISegurado <<interface>> {
+  + obterDadosPessoais() : List<String>
+  + obterValoresSinistros(funcionario : Funcionario) : List<Float>
+}
+
+class Segurado {
+  - codigo : Integer
+  - nome : String
+  - cidade : String
+  - sinistro1 : Float
+  - sinistro2 : Float
+}
+
+class SeguradoProxy {
+  - codigo : Integer
+}
+
+class Funcionario {
+  - nome : String
+  - autorizado : boolean
+}
+
+class BD {
+  + getSegurado(codigo : Integer) : Segurado
+  + addSegurado(segurado : Segurado)
+}
+
+ISegurado <|.. Segurado
+ISegurado <|.. SeguradoProxy
+SeguradoProxy ..> Segurado
+SeguradoProxy ..> Funcionario
+Segurado ..> Funcionario
+Segurado ..> BD
+BD --> "0..*" Segurado : segurados
+@enduml
